@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+:root {
+    --text-color: #332F1F;
+    --accent-color: #90817C;
+    --base-color: white;
+    --input-color: #FFD4C4;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    /* outline: 2px solid blue; */
+}
+
+html {
+    font-family: Lato, Poppins, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 12pt;
+    color: var(--text-color);
+    text-align: center;
+}
+
+body {
+    min-height: 100vh;
+    background-image: url(pink-background.jpg);
+    background-size: cover; /* cover shoes entire image */
+    background-position: right;
+    overflow: hidden; /* set to hidden to make sure this is not a scrollable website */
+}
+
+.wrapper {
+    background-color: var(--base-color);
+    height: 100vh;
+    max-width: 400px;
+    padding: 10px;
+    border-radius: 0 20px 20px 0;
+    box-sizing: border-box; /* Border edges working on 1 corner, wrapper is bigger than the window. Apply border box so all borders and paddings will be created inwards. Border edges should now be visible. */
+
+    /* Center the content using flex box*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+form {
+    min-width: 100%;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* Organizes layout inside the form */
+}
+
+form > div { /*Direct children of the form* are the four containers, doing below will turn it into a flex box layout to apply some flexbox properties to the flexbox layout*/
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+svg {
+    fill: white;
+}
+
+form label {
+    flex-shrink: 0;
+    height: 50px;
+    width: 50px;
+    background-color: var(--accent-color);
+    /* fill: var(--base-color); Control color of SVG elements */
+    border-radius: 10px 0 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form input {
+    box-sizing: border-box; /* To help maintain consistent size*/
+    flex-grow: 0.5;
+    min-width: 0;
+    height: 50px; /* Same size as the labels. */
+    padding: 1em; /*Using box-sizing border box b/c this padding would have changed the total height of the input*/
+    font-size: 12pt;
+    border-radius: 0 10px 10px 0;
+    border: 2px solid var(--input-color); /*Makes border invisible by matching the background-color below. Prevents the hover from transitioning border color growing at the edges, so we change border-color to the accent color down in the hover section*/
+    background-color: var(--input-color);
+    border-left: none;
+    transition: 150ms ease; /* Makes it smoother. */
+}
+
+form input:hover { /*pseudo class*/
+    border-color: var(--accent-color);
+}
+
+form input:focus { /*to prevent the field from being highlighted blue when selected*/
+    outline: none;
+    border-color: var(--text-color);
+}
+
+/* Will only change color one label at a time instead of all using the > */
+/* Input and label are on the same hierarchy in HTML; selecting parent div inside we can take the label. */
+div:has(input:focus) > label{ 
+    background-color: var(--text-color); 
+}
+
+form button {
+    margin-top: 10px;
+    border: none;
+    border-radius: 100px;
+    padding: 0.85em 4em; /* em = font size of element; 0.85 = 85% of the font size, 4em = 4 x the font size */
+    background-color: var(--accent-color);
+    color: var(--base-color);
+    font: inherit;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 150ms ease; /*Makes the button:hover color smoother.*/
+}
+
+form button:hover {
+    background-color: var(--text-color);
+}
+
+form button:focus {
+    outline: none; /*Will prevent button from being highlighted*/
+    background-color: var(--text-color);
+}
+
+/*Makes the website responsive on different devices*/
+@media(max-width: 1100px) {
+    .wrapper{
+        width: min(600px, 100%);
+        border-radius: 0; /*Remove border edges on smartphone screens.*/
+    }
+}
+
+form div.incorrect label{
+    background-color: #f06272;
+}
+
+form div.incorrect input { /*Increasing specificity that is greater than the above form input:hover*/
+    border-color: #f06272;
+}
+
+#error-message {
+    color: #f06272;
+}
