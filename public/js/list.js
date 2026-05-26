@@ -2,6 +2,15 @@ let tableBodEl = document.querySelector("#table-body-list")
 let flashContainer = document.querySelector("#flashcard-container")
 
 
+//Connecting list.js with backend data from vocabRoutes.js
+fetch('/api/vocab')
+    .then(res => res.json())
+    .then(data => 
+        console.log('Backend vocab data:', data))
+    .catch(function(error) {
+        console.log('Fetch error:', error);
+    });
+
 //Objects
 let dict = {
     "El menú" : {
