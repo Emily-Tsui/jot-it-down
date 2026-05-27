@@ -7,9 +7,23 @@ fetch('/api/vocab')
     .then(res => res.json())
     .then(data => {
         backendVocab = data;
-
         console.log('Backend vocab data: ', backendVocab);
+
+        //Using backend data to create table rows dynamically
+        backendVocab.forEach(wordObject)
+
+        function wordObject(wordObj) {
+            let row = document.createElement('tr');
+            let wordCell = document.createElement('td');
+
+            wordCell.textContent = wordObj.word;
+
+            row.append(wordCell);
+
+            tableBodEl.append(row);
+        }
     })
+
     .catch(function(error){
         console.log('Fetch error: ', error);
     })
