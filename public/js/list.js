@@ -31,20 +31,20 @@ fetch('/api/vocab')
 
 //Objects
 let dict = {
-    "El menú" : {
-        definition: "menu",
-        pronunciation: "Like the English way menu."
-    },
+    // "El menú" : {
+    //     definition: "menu",
+    //     pronunciation: "Like the English way menu."
+    // },
 
-    "Las revistas" : {
-        definition: "magazines",
-        pronunciation: "Try pronouncing the beginning r with 1 tongue roll and pronounce the s at the end."
-    },
+    // "Las revistas" : {
+    //     definition: "magazines",
+    //     pronunciation: "Try pronouncing the beginning r with 1 tongue roll and pronounce the s at the end."
+    // },
 
-    "El estudio" : {
-        definition: "the study",
-        pronunciation: "emphasize the second syllable and the d is not a hard sounding d."
-    },
+    // "El estudio" : {
+    //     definition: "the study",
+    //     pronunciation: "emphasize the second syllable and the d is not a hard sounding d."
+    // },
 
     "¡Hasta luégo!" : {
         definition: "See you later",
@@ -97,7 +97,7 @@ function tableFunc(event) {
         // defEl.append(dict[tagText].definition)
         defEl.append(selectedWord.definition)
         // proEl.append(dict[tagText].pronunciation)
-        proEl.append("Pronunciation coming soon.")
+        proEl.append(selectedWord.pronunciation)
 
         flashContainer.append(defEl)
         flashContainer.append(proEl)
