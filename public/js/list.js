@@ -74,6 +74,14 @@ function tableFunc(event) {
 
         let tagText = event.target.innerText
 
+        let selectedWord = backendVocab.find(findWord)
+
+        function findWord(wordObj){
+            return wordObj.word === tagText;
+        }
+
+        console.log(selectedWord)
+
         let defEl = document.createElement("p")
         let proEl = document.createElement("p")
 
@@ -86,8 +94,10 @@ function tableFunc(event) {
         defEl.append(defLabel)
         proEl.append(proLabel)
 
-        defEl.append(dict[tagText].definition)
-        proEl.append(dict[tagText].pronunciation)
+        // defEl.append(dict[tagText].definition)
+        defEl.append(selectedWord.definition)
+        // proEl.append(dict[tagText].pronunciation)
+        proEl.append("Pronunciation coming soon.")
 
         flashContainer.append(defEl)
         flashContainer.append(proEl)
