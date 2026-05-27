@@ -1,15 +1,19 @@
-let tableBodEl = document.querySelector("#table-body-list")
-let flashContainer = document.querySelector("#flashcard-container")
-
+let tableBodEl = document.querySelector("#table-body-list");
+let flashContainer = document.querySelector("#flashcard-container");
+let backendVocab = []; //used for flashcards, tables, and randomizer microservice [0], .length, [randomIndex]
 
 //Connecting list.js with backend data from vocabRoutes.js
 fetch('/api/vocab')
     .then(res => res.json())
-    .then(data => 
-        console.log('Backend vocab data:', data))
-    .catch(function(error) {
-        console.log('Fetch error:', error);
-    });
+    .then(data => {
+        backendVocab = data;
+
+        console.log('Backend vocab data: ', backendVocab);
+    })
+    .catch(function(error){
+        console.log('Fetch error: ', error);
+    })
+        
 
 //Objects
 let dict = {
