@@ -25,12 +25,14 @@ let vocabWords = [
 router.get('/', function(req, res) {
 
     res.json(vocabWords);
-    
+
 });
 
 router.post('/', function(req, res) {
 
-    console.log(req.body)
+    console.log(req.body);
+
+    vocabWords.push(req.body);
 
     res.json({
         message: 'Vocabulary received successfully'
