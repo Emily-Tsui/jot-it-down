@@ -24,6 +24,16 @@ router.get('/', function(req, res) {
     ];
 
     res.json(vocabWords);
-})
+});
+
+router.post('/', function(req, res) {
+
+    console.log(req.body)
+
+    res.json({
+        message: 'Vocabulary received successfully'
+    });
+});
+
 
 module.exports = router;

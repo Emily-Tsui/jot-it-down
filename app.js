@@ -11,6 +11,9 @@ const vocabRoutes = require('./server/routes/vocabRoutes');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+//Use express to parse JSON
+app.use(express.json());
+
 //Connect to vocabulary backend for database, user accounts, persistent data, SQLlite, authentication
 app.use('/api/vocab', vocabRoutes);
 

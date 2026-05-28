@@ -3,6 +3,7 @@ const bodEl = document.getElementById("tbod")
 const inputVocab = document.getElementById("input-vocab")
 
 let myWord = ""
+
 const inputBtn = document.getElementById("input-button")
 
 let myPronunciation = ""
@@ -16,6 +17,7 @@ let selectedRow = null
 
 
 inputBtn.addEventListener("click", function() {
+    // event.preventDefault()
     addEntries()
 })
 
@@ -23,6 +25,39 @@ function addEntries() {
     myWord = inputVocab.value  
     myPronunciation = inputPro.value 
     myDefinition = inputDef.value
+
+    fetch('/api/vocab', {
+
+    method: 'POST',
+
+    headers: {
+        'Content-Type': 'application/json'
+    },
+
+    body: JSON.stringify({
+
+        word: myWord,
+        definition: myDefinition,
+        pronunciation: myPronunciation
+
+    })
+
+    })
+    .then(function(response) {
+
+        return response.json();
+
+    })
+    .then(function(data) {
+
+        console.log('POST success:', data);
+
+    })
+    .catch(function(error) {
+
+        console.log('POST error:', error);
+
+    });
 
     let currentWord = myWord
     let currentPro = myPronunciation
