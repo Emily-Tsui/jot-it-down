@@ -30,7 +30,7 @@ fetch('/api/vocab')
         
 
 //Objects
-let dict = {
+// let dict = {
     // "El menú" : {
     //     definition: "menu",
     //     pronunciation: "Like the English way menu."
@@ -46,21 +46,21 @@ let dict = {
     //     pronunciation: "emphasize the second syllable and the d is not a hard sounding d."
     // },
 
-    "¡Hasta luégo!" : {
-        definition: "See you later",
-        pronunciation: "h is silent."
-    },
+//     "¡Hasta luégo!" : {
+//         definition: "See you later",
+//         pronunciation: "h is silent."
+//     },
 
-    "De lunes a viernes" : {
-        definition: "From Monday to Friday",
-        pronunciation: "days of the week are spelled in lowercase in Spanish."
-    },
+//     "De lunes a viernes" : {
+//         definition: "From Monday to Friday",
+//         pronunciation: "days of the week are spelled in lowercase in Spanish."
+//     },
 
-    "¿Cuánto cuestas?" : {
-        definition: "How much does it cost?",
-        pronunciation: "The t is pronounced with the air in between the roof of the mouth and tongue."
-    }
-}
+//     "¿Cuánto cuestas?" : {
+//         definition: "How much does it cost?",
+//         pronunciation: "The t is pronounced with the air in between the roof of the mouth and tongue."
+//     }
+// }
 
 
 tableBodEl.addEventListener("click", tableFunc)
