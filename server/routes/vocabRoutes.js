@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', function(req, res) {
-
-    const vocabWords = [
+let vocabWords = [
         {
             word: 'El menú',
             definition: 'menu',
@@ -23,7 +21,11 @@ router.get('/', function(req, res) {
 
     ];
 
+
+router.get('/', function(req, res) {
+
     res.json(vocabWords);
+    
 });
 
 router.post('/', function(req, res) {
