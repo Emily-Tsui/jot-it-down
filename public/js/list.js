@@ -18,6 +18,10 @@ fetch('/api/vocab')
 
             wordCell.textContent = wordObj.word;
 
+            
+
+            row.dataset.id = wordObj.id;
+
             row.append(wordCell);
 
             tableBodEl.append(row);

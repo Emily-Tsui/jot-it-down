@@ -1,5 +1,18 @@
 const bodEl = document.getElementById("tbod")
 
+fetch('/api/vocab')
+    .then(res => res.json())
+    .then(data => {
+
+        data.forEach(createExistingRow);
+
+    })
+    .catch(function(error) {
+
+        console.log('Fetch error:', error);
+
+    });
+
 const inputVocab = document.getElementById("input-vocab")
 
 let myWord = ""
@@ -14,6 +27,8 @@ const inputDef = document.getElementById("input-definition")
 
 let selectedRow = null
 
+let selectedRowId = null
+
 
 
 inputBtn.addEventListener("click", function() {
@@ -26,21 +41,65 @@ function addEntries() {
     myPronunciation = inputPro.value 
     myDefinition = inputDef.value
 
-    fetch('/api/vocab', {
+    // if (selectedRowId !== null) {
+    //     console.log("UPDATE MODE");
+    //     return;
+    // }
 
-    method: 'POST',
+    // fetch('/api/vocab', {
 
-    headers: {
-        'Content-Type': 'application/json'
-    },
+    // method: 'POST',
 
-    body: JSON.stringify({
+    // headers: {
+    //     'Content-Type': 'application/json'
+    // },
 
-        word: myWord,
-        definition: myDefinition,
-        pronunciation: myPronunciation
+    // body: JSON.stringify({
 
-    })
+    //     word: myWord,
+    //     definition: myDefinition,
+    //     pronunciation: myPronunciation
+
+    // })
+
+    // })
+    // .then(function(response) {
+
+    //     return response.json();
+
+    // })
+    // .then(function(data) {
+
+    //     console.log('POST success:', data);
+
+    //     console.log('New SQLite ID:', data.id);
+
+    //     newRow.dataset.id = data.id;
+
+    // })
+    // .catch(function(error) {
+
+    //     console.log('POST error:', error);
+
+    // });
+
+    if (selectedRowId !== null) {
+
+    fetch('/api/vocab/' + selectedRowId, {
+
+        method: 'PUT',
+
+        headers: {
+            'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify({
+
+            word: myWord,
+            definition: myDefinition,
+            pronunciation: myPronunciation
+
+        })
 
     })
     .then(function(response) {
@@ -50,14 +109,25 @@ function addEntries() {
     })
     .then(function(data) {
 
-        console.log('POST success:', data);
+        console.log(data);
+
+        selectedRow.children[0].innerHTML = myWord;
+        selectedRow.children[1].innerHTML = myPronunciation;
+        selectedRow.children[2].innerHTML = myDefinition;
+
+        selectedRow = null;
+        selectedRowId = null;
 
     })
     .catch(function(error) {
 
-        console.log('POST error:', error);
+        console.log('Update error:', error);
 
     });
+
+    return;
+
+}
 
     let currentWord = myWord
     let currentPro = myPronunciation
@@ -107,11 +177,15 @@ function addEntries() {
     }
 
     myEditBtn.onclick = function () {
+        
+
         inputVocab.value = currentWord
         inputPro.value = currentPro
         inputDef.value = currentDef
 
         selectedRow = newRow
+        selectedRowId = newRow.dataset.id
+        console.log(selectedRowId);
     }   
 
     if (selectedRow !== null) {
@@ -143,7 +217,86 @@ function editRow() {
 }
 
 
+function createExistingRow(wordObj) {
+
+    let newRow = document.createElement("tr");
+
+    newRow.dataset.id = wordObj.id;
+
+    let word = createTableCells(wordObj.word);
+    let pro = createTableCells(wordObj.pronunciation);
+    let def = createTableCells(wordObj.definition);
+
+    let myDeleteBtn = document.createElement("button");
+    myDeleteBtn.innerHTML = "Delete";
+
+    myDeleteBtn.onclick = function () {
+
+    let confirmDelete = confirm(
+        "Are you sure you want to delete this row?"
+    );
+        if (confirmDelete) {
+            deleteRow(newRow);
+        }
+    }
+
+    let myEditBtn = document.createElement("button");
+    myEditBtn.innerHTML = "Edit";
+
+    myEditBtn.onclick = function () {
+        inputVocab.value = wordObj.word;
+        inputPro.value = wordObj.pronunciation;
+        inputDef.value = wordObj.definition;
+
+        selectedRow = newRow;
+        selectedRowId = newRow.dataset.id;
+
+        console.log("Editing row:", selectedRowId);
+    }
+
+    let del = createTableCells(myDeleteBtn);
+    let edit = createTableCells(myEditBtn);
+
+    newRow.append(word);
+    newRow.append(pro);
+    newRow.append(def);
+    newRow.append(del);
+    newRow.append(edit);
+
+    bodEl.append(newRow);
+
+}
+
+// function deleteRow(row) {
+//     row.remove()
+// }
+
 function deleteRow(row) {
-    row.remove()
+
+    let rowId = row.dataset.id;
+
+    fetch('/api/vocab/' + rowId, {
+
+        method: 'DELETE'
+
+    })
+    .then(function(response) {
+
+        return response.json();
+
+    })
+    .then(function(data) {
+
+        console.log(data);
+
+        row.remove();
+
+    })
+    .catch(function(error) {
+
+        console.log('Delete error:', error);
+
+    });
+
 }
 

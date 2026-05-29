@@ -50,7 +50,7 @@ router.get('/', function(req, res) {
 
 router.post('/', function(req, res) {
 
-    console.log(req.body);
+    // console.log(req.body);
 
     // vocabWords.push(req.body);
 
@@ -83,9 +83,88 @@ router.post('/', function(req, res) {
     }
     );
 
+    // Helps show in the node terminal the database data with id as a reference only
+    db.all(`
+        SELECT * FROM vocabulary
+    `, (err, rows) => {
+
+        if (err) {
+            console.log(err.message);
+        } else {
+            console.log(rows);
+        }
+
+    });
+
     // res.json({
     //     message: 'Vocabulary received successfully'
     // });
+});
+
+router.delete('/:id', function(req, res) {
+
+    db.run(
+        `
+        DELETE FROM vocabulary
+        WHERE id = ?
+        `,
+        [req.params.id],
+        function(err) {
+
+            if (err) {
+
+                console.log(err.message);
+
+                return res.status(500).json({
+                    message: 'Delete failed'
+                });
+
+            }
+
+            res.json({
+                message: 'Vocabulary deleted successfully'
+            });
+
+        }
+    );
+
+});
+
+router.put('/:id', function(req, res) {
+
+    db.run(
+        `
+        UPDATE vocabulary
+        SET word = ?,
+            definition = ?,
+            pronunciation = ?
+        WHERE id = ?
+        `,
+        [
+            req.body.word,
+            req.body.definition,
+            req.body.pronunciation,
+            req.params.id
+        ],
+        function(err) {
+
+            if (err) {
+
+                console.log(err.message);
+
+                return res.status(500).json({
+                    message: 'Update failed'
+                });
+
+            }
+
+            res.json({
+                message: 'Vocabulary updated successfully'
+            });
+
+        }
+    );
+
 });
 
 
