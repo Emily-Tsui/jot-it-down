@@ -6,6 +6,8 @@ const PORT = 3080;
 
 const path = require('path');
 
+const db = require('./server/database/db');
+
 // const testRoutes = require('./server/routes/testRoutes');
 const vocabRoutes = require('./server/routes/vocabRoutes');
 
