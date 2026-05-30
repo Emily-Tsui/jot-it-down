@@ -17,6 +17,8 @@
 // ---- Test Route ---- //
 
 
+//Recevies a number within the range given by the frontend using /allCards.length 
+// as the end point to get a random number to this backend to send to the microservice
 const express = require('express');
 const router = express.Router();
 const zmq = require('zeromq');
