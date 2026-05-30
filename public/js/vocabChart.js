@@ -33,10 +33,14 @@ let selectedRowId = null
 
 inputBtn.addEventListener("click", function() {
     // event.preventDefault()
+
+    console.log('Add button clicked')
     addEntries()
 })
 
 function addEntries() {
+
+    console.log("Inside addEntries");
     myWord = inputVocab.value  
     myPronunciation = inputPro.value 
     myDefinition = inputDef.value
@@ -46,42 +50,42 @@ function addEntries() {
     //     return;
     // }
 
-    // fetch('/api/vocab', {
+    fetch('/api/vocab', {
 
-    // method: 'POST',
+    method: 'POST',
 
-    // headers: {
-    //     'Content-Type': 'application/json'
-    // },
+    headers: {
+        'Content-Type': 'application/json'
+    },
 
-    // body: JSON.stringify({
+    body: JSON.stringify({
 
-    //     word: myWord,
-    //     definition: myDefinition,
-    //     pronunciation: myPronunciation
+        word: myWord,
+        definition: myDefinition,
+        pronunciation: myPronunciation
 
-    // })
+    })
 
-    // })
-    // .then(function(response) {
+    })
+    .then(function(response) {
 
-    //     return response.json();
+        return response.json();
 
-    // })
-    // .then(function(data) {
+    })
+    .then(function(data) {
 
-    //     console.log('POST success:', data);
+        console.log('POST success:', data);
 
-    //     console.log('New SQLite ID:', data.id);
+        console.log('New SQLite ID:', data.id);
 
-    //     newRow.dataset.id = data.id;
+        newRow.dataset.id = data.id;
 
-    // })
-    // .catch(function(error) {
+    })
+    .catch(function(error) {
 
-    //     console.log('POST error:', error);
+        console.log('POST error:', error);
 
-    // });
+    });
 
     if (selectedRowId !== null) {
 
