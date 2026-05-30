@@ -13,6 +13,8 @@ const vocabRoutes = require('./server/routes/vocabRoutes');
 
 const phraseRoutes = require('./server/routes/phraseRoutes')
 
+const randomRoutes = require('./server/routes/randomRoutes');
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Use express to parse JSON
@@ -22,6 +24,8 @@ app.use(express.json());
 app.use('/api/vocab', vocabRoutes);
 
 app.use('/api/phrases', phraseRoutes);
+
+app.use('/api/random', randomRoutes);
 
 
 

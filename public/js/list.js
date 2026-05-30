@@ -1,13 +1,19 @@
 let tableBodEl = document.querySelector("#table-body-list");
 let flashContainer = document.querySelector("#flashcard-container");
+let randomBtn = document.querySelector('#random-flashcard-btn');
+
+
 let backendVocab = []; //used for flashcards, tables, and randomizer microservice [0], .length, [randomIndex]\
 let backendPhrase = [];
+let allcards = [];
+
 
 //Connecting list.js with backend data from vocabRoutes.js
 fetch('/api/vocab')
     .then(res => res.json())
     .then(data => {
         backendVocab = data;
+
         console.log('Backend vocab data: ', backendVocab);
 
         //Using backend data to create table rows dynamically
@@ -40,7 +46,13 @@ fetch('/api/vocab')
 fetch('/api/phrases')
     .then(res => res.json())
     .then(data => {
-        backendPhrase = data;
+        backendPhrase = data; //After fetch loads all data we insert allCards below because vocabulary and phrases have already loaded
+
+        allCards = [...backendVocab, ...backendPhrase];
+
+        console.log("All cards:", allCards);
+        console.log("Total card length:", allCards.length);
+
         console.log('Backend phrase data: ', backendPhrase);
 
         //Using backend data to create table rows dynamically
@@ -185,4 +197,44 @@ function tableFunc(event) {
         
         }
 }
+
+// Grabbing a random number from the server.py microservice and connecting it with the frontend
+randomBtn.addEventListener('click', function () {
+    fetch('/api/random' + "/" + allCards.length)
+        .then(res => res.json())
+        .then(data => {
+            console.log('Random number:', data.randomNumber);
+
+            let randomIndex = Number(data.randomNumber) - 1;
+
+            let randomCard = allCards[randomIndex];
+
+            flashContainer.textContent = '';
+
+            let cardText = document.createElement('p');
+
+            if (randomCard.word) {
+                cardText.textContent =
+                    randomCard.word + ' - ' + randomCard.definition;
+            }
+            else {
+                cardText.textContent =
+                    randomCard.phrase + ' - ' + randomCard.definition;
+            }
+
+            flashContainer.append(cardText);
+
+            flashContainer.style.display = 'block';
+
+            console.log('Random card:', randomCard);
+
+        })
+        .catch(function(error) {
+
+            console.log(error);
+
+        });
+
+});
+
 
