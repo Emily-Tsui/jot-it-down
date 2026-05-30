@@ -11,6 +11,8 @@ const db = require('./server/database/db');
 // const testRoutes = require('./server/routes/testRoutes');
 const vocabRoutes = require('./server/routes/vocabRoutes');
 
+const phraseRoutes = require('./server/routes/phraseRoutes')
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Use express to parse JSON
@@ -19,7 +21,7 @@ app.use(express.json());
 //Connect to vocabulary backend for database, user accounts, persistent data, SQLlite, authentication
 app.use('/api/vocab', vocabRoutes);
 
-// app.use('/api/test', testRoutes); testing routes meaning testing connection to backend
+app.use('/api/phrases', phraseRoutes);
 
 
 

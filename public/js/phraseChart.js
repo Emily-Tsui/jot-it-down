@@ -1,5 +1,18 @@
 const bodEl = document.getElementById("tbod")
 
+fetch('/api/phrases')
+    .then(res => res.json())
+    .then(data => {
+
+        data.forEach(createExistingRow);
+
+    })
+    .catch(function(error) {
+
+        console.log('Fetch error:', error);
+
+    });
+
 const inputPhrase = document.getElementById("input-phrase")
 
 let myPhrase = ""
@@ -13,6 +26,8 @@ const inputDef = document.getElementById("input-definition")
 
 let selectedRow = null
 
+let selectedRowId = null;
+
 
 
 inputBtn.addEventListener("click", function() {
@@ -23,6 +38,85 @@ function addEntries() {
     myPhrase = inputPhrase.value  
     myPronunciation = inputPro.value 
     myDefinition = inputDef.value
+
+    if (selectedRowId !== null) {
+
+    fetch('/api/phrases/' + selectedRowId, {
+
+        method: 'PUT',
+
+        headers: {
+            'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify({
+
+            phrase: myPhrase,
+            definition: myDefinition,
+            pronunciation: myPronunciation
+
+        })
+
+    })
+    .then(function(response) {
+
+        return response.json();
+
+    })
+    .then(function(data) {
+
+        console.log(data);
+
+        selectedRow.children[0].innerHTML = myPhrase;
+        selectedRow.children[1].innerHTML = myPronunciation;
+        selectedRow.children[2].innerHTML = myDefinition;
+
+        selectedRow = null;
+        selectedRowId = null;
+
+    })
+    .catch(function(error) {
+
+        console.log('Update error:', error);
+
+    });
+
+    return;
+
+    }
+
+    fetch('/api/phrases', {
+
+    method: 'POST',
+
+    headers: {
+        'Content-Type': 'application/json'
+    },
+
+    body: JSON.stringify({
+
+        phrase: myPhrase,
+        definition: myDefinition,
+        pronunciation: myPronunciation
+
+    })
+
+    })
+    .then(function(response) {
+
+        return response.json();
+
+    })
+    .then(function(data) {
+
+        console.log('POST success:', data);
+
+    })
+    .catch(function(error) {
+
+        console.log('POST error:', error);
+
+    });
 
     let currentWord = myPhrase
     let currentPro = myPronunciation
@@ -66,6 +160,8 @@ function addEntries() {
         selectedRow = newRow
     }   
 
+  
+
     if (selectedRow !== null) {
     selectedRow.children[0].innerHTML = myPhrase
     selectedRow.children[1].innerHTML = myPronunciation
@@ -89,6 +185,56 @@ function createTableCells(data) {
 
 }
 
+function createExistingRow(phraseObj) {
+
+    let newRow = document.createElement("tr");
+
+    newRow.dataset.id = phraseObj.id;
+
+    let phrase = createTableCells(phraseObj.phrase);
+    let pro = createTableCells(phraseObj.pronunciation);
+    let def = createTableCells(phraseObj.definition);
+
+    let myDeleteBtn = document.createElement("button");
+    myDeleteBtn.innerHTML = "Delete";
+
+     myDeleteBtn.onclick = function () {
+
+    let confirmDelete = confirm(
+        "Are you sure you want to delete this row?"
+    );
+        if (confirmDelete) {
+            deleteRow(newRow);
+        }
+    }
+
+    let myEditBtn = document.createElement("button");
+    myEditBtn.innerHTML = "Edit";
+
+    myEditBtn.onclick = function () {
+        inputPhrase.value = phraseObj.phrase;
+        inputPro.value = phraseObj.pronunciation;
+        inputDef.value = phraseObj.definition;
+
+        selectedRow = newRow;
+        selectedRowId = newRow.dataset.id;
+
+        console.log("Editing phrase:", selectedRowId);
+    }
+
+    let del = createTableCells(myDeleteBtn);
+    let edit = createTableCells(myEditBtn);
+
+    newRow.append(phrase);
+    newRow.append(pro);
+    newRow.append(def);
+    newRow.append(del);
+    newRow.append(edit);
+
+    bodEl.append(newRow);
+
+}
+
 
 function editRow() {
 
@@ -96,6 +242,30 @@ function editRow() {
 
 
 function deleteRow(row) {
-    row.remove()
-}
 
+    let rowId = row.dataset.id;
+
+    fetch('/api/phrases/' + rowId, {
+
+        method: 'DELETE'
+
+    })
+    .then(function(response) {
+
+        return response.json();
+
+    })
+    .then(function(data) {
+
+        console.log(data);
+
+        row.remove();
+
+    })
+    .catch(function(error) {
+
+        console.log('Delete error:', error);
+
+    });
+
+}

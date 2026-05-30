@@ -23,6 +23,15 @@ db.run(`
 `);
 
 
+db.run(`
+    CREATE TABLE IF NOT EXISTS phrases (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        phrase TEXT NOT NULL,
+        definition TEXT NOT NULL,
+        pronunciation TEXT NOT NULL
+    )
+`);
+
 
 
 module.exports = db;

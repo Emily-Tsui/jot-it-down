@@ -1,6 +1,7 @@
 let tableBodEl = document.querySelector("#table-body-list");
 let flashContainer = document.querySelector("#flashcard-container");
-let backendVocab = []; //used for flashcards, tables, and randomizer microservice [0], .length, [randomIndex]
+let backendVocab = []; //used for flashcards, tables, and randomizer microservice [0], .length, [randomIndex]\
+let backendPhrase = [];
 
 //Connecting list.js with backend data from vocabRoutes.js
 fetch('/api/vocab')
@@ -31,6 +32,36 @@ fetch('/api/vocab')
     .catch(function(error){
         console.log('Fetch error: ', error);
     })
+
+
+
+fetch('/api/phrases')
+    .then(res => res.json())
+    .then(data => {
+        backendPhrase = data;
+        console.log('Backend phrase data: ', backendPhrase);
+
+        //Using backend data to create table rows dynamically
+        backendPhrase.forEach(phraseObject)
+
+        function phraseObject(phraseObj) {
+            let row = document.createElement('tr');
+            let phraseCell = document.createElement('td');
+
+            phraseCell.textContent = phraseObj.phrase;
+
+            row.dataset.id = phraseObj.id;
+
+            row.append(phraseCell);
+
+            tableBodEl.append(row);
+        }
+    })
+
+    .catch(function(error){
+        console.log('Fetch error: ', error);
+    })
+        
         
 
 //Objects
@@ -80,11 +111,18 @@ function tableFunc(event) {
 
         let selectedWord = backendVocab.find(findWord)
 
+        let selectedPhrase = backendPhrase.find(findPhrase)
+
+        function findPhrase(phraseObj) {
+            return phraseObj.phrase === tagText;
+        }
+
         function findWord(wordObj){
             return wordObj.word === tagText;
         }
 
-        console.log(selectedWord)
+        console.log(selectedWord);
+        console.log(selectedPhrase);
 
         let defEl = document.createElement("p")
         let proEl = document.createElement("p")
@@ -98,10 +136,19 @@ function tableFunc(event) {
         defEl.append(defLabel)
         proEl.append(proLabel)
 
+        if (selectedWord) {
+            defEl.append(selectedWord.definition);
+            proEl.append(selectedWord.pronunciation);
+        }
+        else if (selectedPhrase) {
+            defEl.append(selectedPhrase.definition);
+            proEl.append(selectedPhrase.pronunciation);
+        }
+
         // defEl.append(dict[tagText].definition)
-        defEl.append(selectedWord.definition)
+        // defEl.append(selectedWord.definition)
         // proEl.append(dict[tagText].pronunciation)
-        proEl.append(selectedWord.pronunciation)
+        // proEl.append(selectedWord.pronunciation)
 
         flashContainer.append(defEl)
         flashContainer.append(proEl)
