@@ -15,14 +15,16 @@ fetch('/api/vocab')
 
         function wordObject(wordObj) {
             let row = document.createElement('tr');
+
+            let typeCell = document.createElement('td');
             let wordCell = document.createElement('td');
 
+            typeCell.textContent = 'Vocabulary';
             wordCell.textContent = wordObj.word;
-
-            
 
             row.dataset.id = wordObj.id;
 
+            row.append(typeCell);
             row.append(wordCell);
 
             tableBodEl.append(row);
@@ -45,13 +47,27 @@ fetch('/api/phrases')
         backendPhrase.forEach(phraseObject)
 
         function phraseObject(phraseObj) {
+            // let row = document.createElement('tr');
+            // let phraseCell = document.createElement('td');
+
+            // phraseCell.textContent = phraseObj.phrase;
+
+            // row.dataset.id = phraseObj.id;
+
+            // row.append(phraseCell);
+
+            // tableBodEl.append(row);
             let row = document.createElement('tr');
+
+            let typeCell = document.createElement('td');
             let phraseCell = document.createElement('td');
 
+            typeCell.textContent = 'Phrase';
             phraseCell.textContent = phraseObj.phrase;
 
             row.dataset.id = phraseObj.id;
 
+            row.append(typeCell);
             row.append(phraseCell);
 
             tableBodEl.append(row);
@@ -108,6 +124,11 @@ function tableFunc(event) {
         let closeBtn = document.createElement("button")
 
         let tagText = event.target.innerText
+
+        // Helps with differentiating showing a flashcard for column type or column entry, so no flashcard shows for type that is clicked
+        if (tagText === "Vocabulary" || tagText === "Phrase") {
+            return;
+        }
 
         let selectedWord = backendVocab.find(findWord)
 
