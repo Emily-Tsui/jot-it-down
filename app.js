@@ -1,18 +1,12 @@
 const express = require('express');
-
+const cors = require('cors');
 const app = express();
-
 const PORT = 3080;
-
 const path = require('path');
-
 const db = require('./server/database/db');
-
 // const testRoutes = require('./server/routes/testRoutes');
 const vocabRoutes = require('./server/routes/vocabRoutes');
-
 const phraseRoutes = require('./server/routes/phraseRoutes')
-
 const randomRoutes = require('./server/routes/randomRoutes');
 
 app.use(express.static(path.join(__dirname, 'public')));

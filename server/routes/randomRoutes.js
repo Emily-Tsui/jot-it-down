@@ -29,7 +29,7 @@ router.get('/:range', async function(req, res) {
 
     try {
 
-        sock.connect("tcp://localhost:8721");
+        sock.connect("tcp://localhost:8722");
 
         await sock.send(req.params.range);
 
