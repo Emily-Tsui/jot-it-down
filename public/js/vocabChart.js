@@ -204,8 +204,6 @@ function addEntries() {
 
 
     bodEl.append(newRow)
-
-    
 }
 
 function createTableCells(data) {
@@ -213,12 +211,10 @@ function createTableCells(data) {
     val.append(data)
 
     return val
-
 }
 
 
 function editRow() {
-
 }
 
 
@@ -277,31 +273,20 @@ function createExistingRow(wordObj) {
 // }
 
 function deleteRow(row) {
-
     let rowId = row.dataset.id;
 
     fetch('/api/vocab/' + rowId, {
-
         method: 'DELETE'
-
     })
     .then(function(response) {
-
         return response.json();
-
     })
     .then(function(data) {
-
         console.log(data);
-
         row.remove();
-
     })
     .catch(function(error) {
-
         console.log('Delete error:', error);
-
     });
-
 }
 

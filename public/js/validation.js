@@ -32,15 +32,16 @@ form.addEventListener('submit', function(event) {
     .then(function(data) {
     console.log(data);
     if (data.success) {
-        localStorage.setItem(
-            'userId',
-            data.userId
-        );
-        localStorage.setItem(
-            'firstname',
-            data.firstname
-        );
-        console.log('User saved to localStorage');
+    localStorage.setItem(
+        'userId',
+        data.userId
+    );
+    localStorage.setItem(
+        'firstname',
+        data.firstname
+    );
+    console.log('User saved to localStorage');
+    window.location.href = '/html/entry.html';
     }
     })
     .catch(function(error) {

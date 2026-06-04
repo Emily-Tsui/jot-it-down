@@ -1,15 +1,16 @@
 let tableBodEl = document.querySelector("#table-body-list");
 let flashContainer = document.querySelector("#flashcard-container");
 let randomBtn = document.querySelector('#random-flashcard-btn');
+const userId = localStorage.getItem('userId');
 
 
 let backendVocab = []; //used for flashcards, tables, and randomizer microservice [0], .length, [randomIndex]\
 let backendPhrase = [];
-let allcards = [];
+let allCards = [];
 
 
 //Connecting list.js with backend data from vocabRoutes.js
-fetch('/api/vocab')
+fetch('/api/vocab?userId=' + userId)
     .then(res => res.json())
     .then(data => {
         backendVocab = data;
@@ -43,7 +44,7 @@ fetch('/api/vocab')
 
 
 
-fetch('/api/phrases')
+fetch('/api/phrases?userId=' + userId)
     .then(res => res.json())
     .then(data => {
         backendPhrase = data; //After fetch loads all data we insert allCards below because vocabulary and phrases have already loaded

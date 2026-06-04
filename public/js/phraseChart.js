@@ -1,6 +1,7 @@
 const bodEl = document.getElementById("tbod")
+const userId = localStorage.getItem('userId');
 
-fetch('/api/phrases')
+fetch('/api/phrases' + userId)
     .then(res => res.json())
     .then(data => {
 
@@ -94,7 +95,7 @@ function addEntries() {
     },
 
     body: JSON.stringify({
-
+        userId: userId,
         phrase: myPhrase,
         definition: myDefinition,
         pronunciation: myPronunciation

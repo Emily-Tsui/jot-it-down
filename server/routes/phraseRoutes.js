@@ -3,12 +3,10 @@ const router = express.Router();
 const db = require('../database/db');
 
 router.get('/', function(req, res) {
-
+    const userId = req.query.userId;
     db.all(
-        `
-        SELECT * FROM phrases
-        `,
-        [],
+        `SELECT * FROM phrases WHERE user_id = ?`,
+        [userId],
         (err, rows) => {
 
             if (err) {
@@ -33,10 +31,11 @@ router.post('/', function(req, res) {
     db.run(
         `
         INSERT INTO phrases
-        (phrase, definition, pronunciation)
-        VALUES (?, ?, ?)
+        (user_id,phrase, definition, pronunciation)
+        VALUES (?, ?, ?, ?)
         `,
         [
+            req.body.userId,
             req.body.phrase,
             req.body.definition,
             req.body.pronunciation
