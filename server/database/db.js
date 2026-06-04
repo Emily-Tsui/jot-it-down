@@ -13,25 +13,43 @@ const db = new sqlite3.Database('./server/database/vocab.db', (err) => {
 
 });
 
+// db.run(`
+//     CREATE TABLE IF NOT EXISTS vocabulary (
+//         id INTEGER PRIMARY KEY AUTOINCREMENT,
+//         word TEXT NOT NULL,
+//         definition TEXT NOT NULL,
+//         pronunciation TEXT NOT NULL
+//     )
+// `);
+
+
+// db.run(`
+//     CREATE TABLE IF NOT EXISTS phrases (
+//         id INTEGER PRIMARY KEY AUTOINCREMENT,
+//         phrase TEXT NOT NULL,
+//         definition TEXT NOT NULL,
+//         pronunciation TEXT NOT NULL
+//     )
+// `);
+
 db.run(`
     CREATE TABLE IF NOT EXISTS vocabulary (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
         word TEXT NOT NULL,
         definition TEXT NOT NULL,
         pronunciation TEXT NOT NULL
     )
 `);
 
-
 db.run(`
     CREATE TABLE IF NOT EXISTS phrases (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
         phrase TEXT NOT NULL,
         definition TEXT NOT NULL,
         pronunciation TEXT NOT NULL
     )
 `);
-
-
 
 module.exports = db;

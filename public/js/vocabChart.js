@@ -1,17 +1,17 @@
 const bodEl = document.getElementById("tbod")
+const userId = localStorage.getItem('userId');
 
-fetch('/api/vocab')
+console.log('Current userId:', userId);
+
+fetch('/api/vocab?userId=' + userId)
     .then(res => res.json())
     .then(data => {
+
+        console.log('Loaded rows:', data);
 
         data.forEach(createExistingRow);
 
     })
-    .catch(function(error) {
-
-        console.log('Fetch error:', error);
-
-    });
 
 const inputVocab = document.getElementById("input-vocab")
 
@@ -50,7 +50,7 @@ function addEntries() {
     //     return;
     // }
 
-    fetch('/api/vocab', {
+    fetch('/api/vocab?userId=' + userId, {
 
     method: 'POST',
 
@@ -59,7 +59,8 @@ function addEntries() {
     },
 
     body: JSON.stringify({
-
+        
+        userId: userId,
         word: myWord,
         definition: myDefinition,
         pronunciation: myPronunciation

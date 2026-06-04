@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../database/db'); //import database connection
 
+
 // let vocabWords = [
 //         {
 //             word: 'El menú',
@@ -23,29 +24,21 @@ const db = require('../database/db'); //import database connection
 //     ];
 
 router.get('/', function(req, res) {
-
     // res.json(vocabWords);
-
+    const userId = req.query.userId;
     db.all(
-    `
-    SELECT * FROM vocabulary
-    `,
-    [],
+    `SELECT * FROM vocabulary WHERE user_id = ?`,
+    [userId],
         (err, rows) => {
-
             if (err) {
                 console.log(err.message);
-
                 return res.status(500).json({
                     message: 'Database query failed'
                 });
             }
-
             res.json(rows);
-
         }
     );
-
 });
 
 router.post('/', function(req, res) {
@@ -57,10 +50,11 @@ router.post('/', function(req, res) {
     db.run(
     `
     INSERT INTO vocabulary
-    (word, definition, pronunciation)
-    VALUES (?, ?, ?)
+    (user_id, word, definition, pronunciation)
+    VALUES (?, ?, ?, ?)
     `,
     [
+        req.body.userId,
         req.body.word,
         req.body.definition,
         req.body.pronunciation
