@@ -8,6 +8,7 @@ const db = require('./server/database/db');
 const vocabRoutes = require('./server/routes/vocabRoutes');
 const phraseRoutes = require('./server/routes/phraseRoutes')
 const randomRoutes = require('./server/routes/randomRoutes');
+const inspoRoutes = require('./server/routes/inspoRoutes');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -21,7 +22,7 @@ app.use('/api/phrases', phraseRoutes);
 
 app.use('/api/random', randomRoutes);
 
-
+app.use('/api/inspo', inspoRoutes);
 
 
 
